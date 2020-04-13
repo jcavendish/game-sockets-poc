@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module">
+      import Game from "./src/Game.js";
+
+      const socket = io();
+      let newGame = null;
+      socket.on("connect", () => {
+        newGame = new Game(socket.id);
+      });
+      socket.on("setup", (data) => {
+        newGame.createGame(data);
+      });
+      socket.on("add-player", (data) => {
+        newGame.addPlayer(data);
+      });
+      socket.on("remove-player", (data) => {
+        newGame.removePlayer(data);
+      });
+      socket.on("disconnect", function () {});
+    </script>
+  </head>
+  <body></body>
+</html>
